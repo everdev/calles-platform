@@ -44,7 +44,7 @@ const AccountGetStartedContent = () => {
       icon: 'key-square',
       title: 'API Keys',
       desc: 'Secure and manage Your API Keys effectively and efficiently.',
-      path: '/account/api-keys'
+      path: '/account/services-keys'
     },
     {
       icon: 'mouse-square',

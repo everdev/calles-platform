@@ -13,7 +13,7 @@ import * as authHelper from '../_helpers';
 import { type AuthModel, type UserModel } from '@/auth';
 
 const API_URL = import.meta.env.VITE_APP_API_URL;
-export const LOGIN_URL = `http://localhost:5150/api/auth/login`;
+export const LOGIN_URL = `${API_URL}/auth/login`;
 export const REGISTER_URL = `${API_URL}/register`;
 export const FORGOT_PASSWORD_URL = `${API_URL}/forgot-password`;
 export const RESET_PASSWORD_URL = `${API_URL}/reset-password`;
@@ -73,15 +73,16 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
 
   const login = async (email: string, password: string) => {
     try {
-      const { data: auth } = await axios.post<AuthModel>(LOGIN_URL, {
+      const { data } = await axios.post<{ auth: AuthModel; user: UserModel }>(LOGIN_URL, {
         email,
-        password
+        password,
       });
 
-      console.log(auth);
+      const { auth } = data;
+
       // @ts-ignore
-      const { token } = auth;
-      localStorage.setItem('token', token);
+      const { access_token } = auth;
+      localStorage.setItem('token', access_token);
       saveAuth(auth);
       const { data: user } = await getUser();
       setCurrentUser(user);

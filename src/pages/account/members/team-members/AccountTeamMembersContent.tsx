@@ -5,7 +5,7 @@ import { InvitePeople, InviteWithLink, Members } from './blocks';
 const AccountTeamMembersContent = () => {
   return (
     <div className="grid gap-5 lg:gap-7.5">
-      <Members />
+      <Members />{/*
 
       <div className="grid lg:grid-cols-2 gap-5 lg:gap-7.5">
         <InvitePeople />
@@ -15,7 +15,7 @@ const AccountTeamMembersContent = () => {
 
       <MiscFaq />
 
-      <MiscHelp2 />
+      <MiscHelp2 />*/}
     </div>
   );
 };

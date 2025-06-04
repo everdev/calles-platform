@@ -20,6 +20,11 @@ const DropdownUser = ({ menuItemRef }: IDropdownUserProps) => {
   const { logout, currentUser } = useAuthContext(); // Obtener el usuario del contexto
   const { isRTL } = useLanguage();
 
+  const userName =
+    currentUser?.fullname ||
+    `${currentUser?.first_name || ''} ${currentUser?.last_name || ''}`.trim() ||
+    'Guest';
+
   const handleThemeMode = (event: ChangeEvent<HTMLInputElement>) => {
     const newThemeMode = event.target.checked ? 'dark' : 'light';
 
@@ -42,7 +47,7 @@ const DropdownUser = ({ menuItemRef }: IDropdownUserProps) => {
               to="/account/profile"
               className="text-sm text-gray-800 hover:text-primary font-semibold leading-none"
             >
-              {currentUser?.first_name || 'Guest'} {/* Mostrar el nombre del usuario o 'Guest' */}
+              {userName} {/* Mostrar el nombre del usuario o 'Guest' */}
             </Link>
             <a
               href={`mailto:${currentUser?.email || ''}`}

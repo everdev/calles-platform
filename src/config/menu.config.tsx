@@ -1,10 +1,306 @@
 import { type TMenuConfig } from '@/components/menu';
 
 export const MENU_SIDEBAR: TMenuConfig = [
+  {
+    title: 'Corporate Dashboard',
+    icon: 'notepad',
+    children: [
+      {
+        title: 'Dashboards',
+        icon: 'element-11',
+        path: '/'
+      },
+      {
+        title: 'Members & Roles',
+        children: [
+          {
+            title: 'Roles',
+            path: '/account/members/roles'
+          },
+          {
+            title: 'Team Members',
+            path: '/account/members/team-members'
+          }
+        ]
+      },
+      {
+        title: 'Products',
+        children: [
+          {
+            title: 'List of Products',
+            path: '/products/inventory/products-management'
+          },
+          {
+            title: 'Products Categoy',
+            path: '/device/inventory/product-alert-management'
+          },
+          {
+            title: 'Supplier registration',
+            path: '/products/inventory/add-products-management'
+          },
+          {
+            title: 'Goods receipt management',
+            path: '/device/inventory/product-alert-management'
+          },
+          {
+            title: 'Products Alert',
+            path: '/device/inventory/product-alert-management'
+          },
+          {
+            title: 'Client products request',
+            path: '/device/inventory/product-request-management'
+          },
+          {
+            title: 'Inventory reconciliation',
+            path: '/device/inventory/product-request-management'
+          },
+          {
+            title: 'Analytics and Reports',
+            path: '/device/inventory/product-request-management'
+          }
+        ]
+      },
+      {
+        title: 'Devices',
+        children: [
+          {
+            title: 'Device Management',
+            path: '/account/security/device-management'
+          },
+          {
+            title: 'Device Brands',
+            path: '/device/brands/device-brands-management'
+          },
+          {
+            title: 'Device Category',
+            path: '/device/category/device-category-management'
+          },
+          {
+            title: 'Device Services',
+            path: '/device/services/device-services-management'
+          },
+          {
+            title: 'Device analytics and Reports',
+            path: '/device/inventory/product-request-management'
+          }
+        ]
+      },
+      {
+        title: 'Tickets',
+        path: '/customer/customer-management'
+      },
+      {
+        title: 'Customer',
+        path: '/customer/customer-management'
+      },
+      {
+        title: 'Point of Sale (POS)',
+        path: '/customer/customer-management'
+      }
+    ]
+  },
+  {
+    title: 'Stores Management',
+    icon: 'lots-shopping',
+    children: [
+      {
+        title: 'Dashboards',
+        icon: 'element-11',
+        path: '/'
+      },
+      {
+        title: 'Members & Roles',
+        children: [
+          {
+            title: 'Roles',
+            path: '/account/members/roles'
+          },
+          {
+            title: 'Team Members',
+            path: '/account/members/team-members'
+          }
+        ]
+      },
+      {
+        title: 'Products',
+        children: [
+          {
+            title: 'List of Products',
+            path: '/products/inventory/products-management'
+          },
+          {
+            title: 'Products Categoy',
+            path: '/device/inventory/product-alert-management'
+          },
+          {
+            title: 'Supplier registration',
+            path: '/products/inventory/add-products-management'
+          },
+          {
+            title: 'Goods receipt management',
+            path: '/device/inventory/product-alert-management'
+          },
+          {
+            title: 'Products Alert',
+            path: '/device/inventory/product-alert-management'
+          },
+          {
+            title: 'Client products request',
+            path: '/device/inventory/product-request-management'
+          },
+          {
+            title: 'Inventory reconciliation',
+            path: '/device/inventory/product-request-management'
+          },
+          {
+            title: 'Analytics and Reports',
+            path: '/device/inventory/product-request-management'
+          }
+        ]
+      },
+      {
+        title: 'Devices',
+        children: [
+          {
+            title: 'Device Management',
+            path: '/account/security/device-management'
+          },
+          {
+            title: 'Device Brands',
+            path: '/device/brands/device-brands-management'
+          },
+          {
+            title: 'Device Category',
+            path: '/device/category/device-category-management'
+          },
+          {
+            title: 'Device Services',
+            path: '/device/services/device-services-management'
+          },
+          {
+            title: 'Device analytics and Reports',
+            path: '/device/inventory/product-request-management'
+          }
+        ]
+      },
+      {
+        title: 'Tickets',
+        path: '/customer/customer-management'
+      },
+      {
+        title: 'Customer',
+        path: '/customer/customer-management'
+      },
+      {
+        title: 'Point of Sale (POS)',
+        path: '/customer/customer-management'
+      }
+    ]
+  },
+  {
+    title: 'Users',
+    icon: 'users',
+    children: [
+      {
+        title: 'Dashboards',
+        icon: 'element-11',
+        path: '/'
+      },
+      {
+        title: 'Members & Roles',
+        children: [
+          {
+            title: 'Roles',
+            path: '/account/members/roles'
+          },
+          {
+            title: 'Team Members',
+            path: '/account/members/team-members'
+          }
+        ]
+      },
+      {
+        title: 'Products',
+        children: [
+          {
+            title: 'List of Products',
+            path: '/products/inventory/products-management'
+          },
+          {
+            title: 'Products Categoy',
+            path: '/device/inventory/product-alert-management'
+          },
+          {
+            title: 'Supplier registration',
+            path: '/products/inventory/add-products-management'
+          },
+          {
+            title: 'Goods receipt management',
+            path: '/device/inventory/product-alert-management'
+          },
+          {
+            title: 'Products Alert',
+            path: '/device/inventory/product-alert-management'
+          },
+          {
+            title: 'Client products request',
+            path: '/device/inventory/product-request-management'
+          },
+          {
+            title: 'Inventory reconciliation',
+            path: '/device/inventory/product-request-management'
+          },
+          {
+            title: 'Analytics and Reports',
+            path: '/device/inventory/product-request-management'
+          }
+        ]
+      },
+      {
+        title: 'Devices',
+        children: [
+          {
+            title: 'Device Management',
+            path: '/account/security/device-management'
+          },
+          {
+            title: 'Device Brands',
+            path: '/device/brands/device-brands-management'
+          },
+          {
+            title: 'Device Category',
+            path: '/device/category/device-category-management'
+          },
+          {
+            title: 'Device Services',
+            path: '/device/services/device-services-management'
+          },
+          {
+            title: 'Device analytics and Reports',
+            path: '/device/inventory/product-request-management'
+          }
+        ]
+      },
+      {
+        title: 'Tickets',
+        path: '/customer/customer-management'
+      },
+      {
+        title: 'Customer',
+        path: '/customer/customer-management'
+      },
+      {
+        title: 'Point of Sale (POS)',
+        path: '/customer/customer-management'
+      }
+    ]
+  },
+
+  { heading: 'Stores' },
 
   {
     title: 'Calles Phone Repair',
-    icon: 'handcart',
+    icon: 'shop',
     children: [
       {
         title: 'Dashboards',
@@ -283,7 +579,7 @@ export const MENU_MEGA: TMenuConfig = [
         children: [
           { title: 'Integrations', icon: 'technology-2', path: '/account/integrations' },
           { title: 'Notifications', icon: 'notification-1', path: '/account/notifications' },
-          { title: 'API Keys', icon: 'key', path: '/account/api-keys' },
+          { title: 'API Keys', icon: 'key', path: '/account/services-keys' },
           { title: 'Appearance', icon: 'eye', path: '/account/appearance' },
           { title: 'Invite a Friend', icon: 'user-tick', path: '/account/invite-a-friend' },
           { title: 'Activity', icon: 'support', path: '/account/activity' },
@@ -350,7 +646,7 @@ export const MENU_MEGA: TMenuConfig = [
             children: [
               { title: 'Integrations', path: '/account/integrations' },
               { title: 'Notifications', path: '/account/notifications' },
-              { title: 'API Keys', path: '/account/api-keys' },
+              { title: 'API Keys', path: '/account/services-keys' },
               { title: 'Appearance', path: '/account/appearance' },
               { title: 'Invite a Friend', path: '/account/invite-a-friend' },
               { title: 'Activity', path: '/account/activity' }

@@ -11,5 +11,19 @@ axiosInstance.interceptors.request.use((config) => {
   }
   return config;
 });
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      console.error('Unauthorized access. Redirecting to login...');
+      localStorage.removeItem('token');
+      window.location.href = '/login';
+    } else {
+      console.error('An error occurred:', error.response || error.message);
+    }
+    return Promise.reject(error);
+  }
+);
+
 
 export default axiosInstance;

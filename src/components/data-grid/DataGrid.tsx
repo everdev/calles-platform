@@ -7,6 +7,7 @@ import {
   Table,
   TableOptions
 } from '@tanstack/react-table';
+import { boolean, number, string } from 'yup';
 
 export type TDataGridLayoutCellSpacing = 'xs' | 'md' | 'sm' | 'lg';
 
@@ -56,6 +57,7 @@ export interface TDataGridProps<TData extends object> {
   serverSide?: boolean;
   onFetchData?: (params: TDataGridRequestParams) => Promise<any>;
   children?: ReactNode;
+  loading?: boolean;
 }
 
 export const DataGrid = <TData extends object>(props: TDataGridProps<TData>) => {

@@ -1,257 +1,115 @@
-/* eslint-disable prettier/prettier */
 import { useEffect, useMemo, useState } from 'react';
-import { useLanguage } from '@/i18n';
-import { toAbsoluteUrl } from '@/utils';
-import { Column, ColumnDef, RowSelectionState } from '@tanstack/react-table';
-import { DataGrid, DataGridColumnHeader, DataGridColumnVisibility, DataGridRowSelect, DataGridRowSelectAll, KeenIcon, useDataGrid, Menu, MenuItem, MenuToggle  } from '@/components';
+import { ColumnDef } from '@tanstack/react-table';
+import { DataGrid } from '@/components';
 import { toast } from 'sonner';
-import { Input } from '@/components/ui/input';
-import { DropdownCard1 } from '@/partials/dropdowns/general';
-import { MembersData, IMembersData } from '.';
-
-interface IColumnFilterProps<TData, TValue> {
-  column: Column<TData, TValue>;
-}
+import { useMembers } from '@/hooks/useMembers';
+import { UserModel } from '@/auth';
+import { MemberModal } from './modals/MemberModal';
 
 const Members = () => {
-  const { isRTL } = useLanguage();
-  const storageFilterId = 'members-filter';
-
-  const ColumnInputFilter = <TData, TValue>({ column }: IColumnFilterProps<TData, TValue>) => {
-    return (
-      <Input
-        placeholder="Filter..."
-        value={(column.getFilterValue() as string) ?? ''}
-        onChange={(event) => column.setFilterValue(event.target.value)}
-        className="h-9 w-full max-w-40"
-      />
-    );
-  };
-
-  const columns = useMemo<ColumnDef<IMembersData>[]>(
-    () => [
-      {
-        accessorKey: 'id',
-        header: () => <DataGridRowSelectAll />,
-        cell: ({ row }) => <DataGridRowSelect row={row} />,
-        enableSorting: false,
-        enableHiding: false,
-        meta: {
-          headerClassName: 'w-0'
-        }
-      },
-      {
-        accessorFn: (row) => row.member,
-        id: 'member',
-        header: ({ column }) => <DataGridColumnHeader title='Member' filter={<ColumnInputFilter column={column} />} column={column} />,
-        enableSorting: true,
-        cell: (info) => (
-          <div className="flex items-center gap-2.5">
-            <div className="shrink-0">
-              <img
-                src={toAbsoluteUrl(`/media/avatars/${info.row.original.member.avatar}`)}
-                className="h-9 rounded-full"
-                alt=""
-              />
-            </div>
-            <div className="flex flex-col gap-0.5">
-              <a className="leading-none font-medium text-sm text-gray-900 hover:text-primary" href="#">
-                {info.row.original.member.name}
-              </a>
-              <span className="text-2sm text-gray-700 font-normal">
-                {info.row.original.member.tasks} tasks
-              </span>
-            </div>
-          </div>
-        ),
-        meta: {
-          headerClassName: 'min-w-[300px]',
-          cellClassName: 'text-gray-700 font-normal'
-        },
-      },
-      {
-        accessorFn: (row) => row.roles,
-        id: 'roles',
-        header: ({ column }) => <DataGridColumnHeader title='Roles' column={column} />,
-        enableSorting: true,
-        cell: (info) => (
-          <div className="flex flex-wrap gap-2.5 mb-2">
-            {info.row.original.roles.map((role: string, index: number) => (
-              <span key={index} className="badge badge-sm badge-light badge-outline">
-                {role}
-              </span>
-            ))}
-          </div>
-        ),
-        meta: {
-          headerClassName: 'min-w-[165px]'
-        },
-      },
-      {
-        accessorFn: (row) => row.location,
-        id: 'location',
-        header: ({ column }) => <DataGridColumnHeader title='Location' column={column} />,
-        enableSorting: true,
-        cell: (info) => (
-          <div className="flex items-center gap-1.5">
-            <img
-              src={toAbsoluteUrl(`/media/flags/${info.row.original.location.flag}`)}
-              className="h-4 rounded-full"
-              alt=""
-            />
-            <span className="leading-none text-gray-800 font-normal">
-              {info.row.original.location.name}
-            </span>
-          </div>
-        ),
-        meta: {
-          headerClassName: 'min-w-[165px]',
-          cellClassName: 'text-gray-700 font-normal'
-        },
-      },
-      {
-        accessorFn: (row) => row.status,
-        id: 'status',
-        header: ({ column }) => <DataGridColumnHeader title='Status' column={column} />,
-        enableSorting: true,
-        cell: (info) => (
-          <span className={`badge badge-sm badge-outline  ${info.row.original.status.variant}`}>
-            {info.row.original.status.label}
-          </span>
-        ),
-        meta: {
-          headerClassName: 'min-w-[165px]',
-          cellClassName: 'text-gray-700 font-normal'
-        },
-      },
-      {
-        accessorFn: (row) => row.recentlyActivity,
-        id: 'recentlyActivity',
-        header: ({ column }) => <DataGridColumnHeader title='Recent activity' column={column} />,
-        enableSorting: true,
-        cell: (info) => info.getValue(),
-        meta: {
-          headerTitle: 'Recent activity',
-          headerClassName: 'min-w-[165px]',
-          cellClassName: 'text-gray-700 font-normal'
-        },
-      },
-      {
-        id: 'click',
-        header: () => '',
-        enableSorting: false,
-        cell: () => (
-          <Menu className="items-stretch">
-            <MenuItem
-              toggle="dropdown"
-              trigger="click"
-              dropdownProps={{
-                placement: isRTL() ? 'bottom-start' : 'bottom-end',
-                modifiers: [
-                  {
-                    name: 'offset',
-                    options: {
-                      offset: isRTL() ? [0, -10] : [0, 10] // [skid, distance]
-                    }
-                  }
-                ]
-              }}
-            >
-              <MenuToggle className="btn btn-sm btn-icon btn-light btn-clear">
-                <KeenIcon icon="dots-vertical" />
-              </MenuToggle>
-              {DropdownCard1()}
-            </MenuItem>
-          </Menu>
-        ),
-        meta: {
-          headerClassName: 'w-[60px]',
-        },
-      },
-    ],
-    [isRTL]
-  );
-
-  // Memoize the team data
-  const data: IMembersData[] = useMemo(() => MembersData, []);
-
-  // Initialize search term from localStorage if available
-  const [searchTerm, setSearchTerm] = useState(() => {
-    return localStorage.getItem(storageFilterId) || '';
+  const { fetchMembers, addMember, editMember } = useMembers();
+  const [data, setData] = useState<UserModel[]>([]);
+  const [filteredData, setFilteredData] = useState<UserModel[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [modalOpen, setModalOpen] = useState(false);
+  const [editingUser, setEditingUser] = useState<UserModel | null>(null);
+  const [formData, setFormData] = useState<Partial<UserModel>>({
+    first_name: '',
+    last_name: '',
+    email: '',
+    phone: '',
+    occupation: '',
+    companyName: 'Calles Phone Repair',
+    roles: [1],
+    isActive: true,
   });
 
-  // Update localStorage whenever the search term changes
   useEffect(() => {
-    localStorage.setItem(storageFilterId, searchTerm);
-  }, [searchTerm]);
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const result = await fetchMembers();
+        setData(result);
+        setFilteredData(result);
+      } catch (error) {
+        toast.error('Failed to fetch members.');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  // Filtered data based on search term
-  const filteredData = useMemo(() => {
-    if (!searchTerm) return data; // If no search term, return full data
+    fetchData();
+  }, [fetchMembers]);
 
-    return data.filter(
-      (member) =>
-        member.member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        member.member.tasks.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }, [searchTerm, data]);
+  const openModal = (user?: UserModel) => {
+    setEditingUser(user || null);
+    setFormData({ first_name: '', last_name: '', email: '', phone: '', occupation: '', companyName: 'Calles Phone Repair', roles: [1], isActive: true });
+    setModalOpen(true);
+  };
 
-  const handleRowSelection = (state: RowSelectionState) => {
-    const selectedRowIds = Object.keys(state);
+  const closeModal = () => {
+    setModalOpen(false);
+    setEditingUser(null);
+  };
 
-    if (selectedRowIds.length > 0) {
-      toast(`Total ${selectedRowIds.length} are selected.`, {
-        description: `Selected row IDs: ${selectedRowIds}`,
-        action: {
-          label: 'Undo',
-          onClick: () => console.log('Undo')
-        }
+  const handleSaveUser = async (userData: Partial<UserModel>) => {
+    try {
+      setLoading(true);
+      if (editingUser) {
+        const updatedUser = await editMember(editingUser._id, userData);
+        const updatedData = await fetchMembers(); // Refrescar datos desde el servidor
+        setData(updatedData);
+        setFilteredData(updatedData);
+        toast.success('Member updated successfully.');
+      } else {
+        const newUser = await addMember(userData);
+        const updatedData = await fetchMembers(); // Refrescar datos desde el servidor
+        setData(updatedData);
+        setFilteredData(updatedData);
+        toast.success('Member added successfully.');
+      }
+      setFormData({
+        first_name: '',
+        last_name: '',
+        email: '',
+        phone: '',
+        occupation: '',
+        companyName: 'Calles Phone Repair',
+        roles: [1],
+        isActive: true,
       });
+      closeModal();
+    } catch (error) {
+      toast.error('Failed to save member.');
+    } finally {
+      setLoading(false);
     }
   };
 
-  const Toolbar = () => {
-    const { table } = useDataGrid();
-
-    return (
-      <div className="card-header px-5 py-5 border-b-0 flex-wrap gap-2">
-        <h3 className="card-title">Team Members</h3>
-
-        <div className="flex flex-wrap items-center gap-2.5">
-          <div className="relative">
-            <KeenIcon
-              icon="magnifier"
-              className="leading-none text-md text-gray-500 absolute top-1/2 start-0 -translate-y-1/2 ms-3"
-            />
-            <input
-              type="text"
-              placeholder="Search Members"
-              className="input input-sm ps-8"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)} // Update search term
-            />
-          </div>
-          <DataGridColumnVisibility table={table}/>
-          <label className="switch switch-sm">
-            <input name="check" type="checkbox" value="1" className="order-2" readOnly />
-            <span className="switch-label order-1">Active Users</span>
-          </label>
+  const columns: ColumnDef<UserModel>[] = useMemo(() => [
+    { accessorKey: 'first_name', header: 'First Name' },
+    { accessorKey: 'last_name', header: 'Last Name' },
+    { accessorKey: 'email', header: 'Email' },
+    { accessorKey: 'phone', header: 'Phone' },
+    { accessorKey: 'companyName', header: 'Company' },
+    {
+      id: 'actions',
+      header: 'Actions',
+      cell: ({ row }) => (
+        <div className="flex gap-2">
+          <button onClick={() => openModal(row.original)}>Edit</button>
         </div>
-      </div>
-    );
-  };
+      )
+    }
+  ], []);
 
   return (
-    <DataGrid 
-      columns={columns} 
-      data={filteredData} 
-      rowSelection={true} 
-      onRowSelectionChange={handleRowSelection}
-      pagination={{ size: 10 }}
-      sorting={[{ id: 'member', desc: false }]} 
-      toolbar={<Toolbar />}
-      layout={{ card: true }}
-    />
+    <>
+      <button onClick={() => openModal()} className="btn btn-primary mb-4">Add Member</button>
+      <DataGrid columns={columns} data={filteredData} loading={loading} />
+      <MemberModal isOpen={modalOpen} onClose={closeModal} onSave={handleSaveUser} user={editingUser} />
+    </>
   );
 };
 

@@ -83,7 +83,7 @@ const NetworkGetStartedContent = () => {
         },
         {
           title: 'Service Agents',
-          path: 'account/api-keys'
+          path: 'account/services-keys'
         },
         {
           title: 'Applicants',
@@ -114,7 +114,7 @@ const NetworkGetStartedContent = () => {
         },
         {
           title: 'Service Agents',
-          path: 'account/api-keys'
+          path: 'account/services-keys'
         },
         {
           title: 'Applicants',
@@ -145,7 +145,7 @@ const NetworkGetStartedContent = () => {
         },
         {
           title: 'Service Agents',
-          path: 'account/api-keys'
+          path: 'account/services-keys'
         },
         {
           title: 'Applicants',
